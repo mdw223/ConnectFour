@@ -128,23 +128,21 @@ public class Game {
 
             if (scnr.hasNextInt()) {
                 spot = scnr.nextInt();
-                if ((spot >= 1) && (spot <= 7)) {
-                    // if the spot is within the range, place the piece in that spot
+                if (checkSpot(spot)) {
+                    incorrectInput = false;
                     if (count % 2 == 0){
                         //if even count, player1's piece will be entered
-                        enterPiece(player1.getPiece() , spot);
+                        dropPiece(player1.getPiece() , spot);
                     }
                     else {
                         // if neg count, player2 will enter piece
-                        enterPiece(player2.getPiece() , spot);
-                    }
-
-                    incorrectInput = false; //got good input, stop looping
+                        dropPiece(player2.getPiece() , spot);
+                    }      
                 }
                 else {
                     System.out.println("Invalid spot");
                     continue; //ask original question again
-                }
+                }             
 
             }
             else if (scnr.hasNext()) { // if user enters a word
@@ -176,22 +174,77 @@ public class Game {
 
     /** this method is called with the column in which the player wants
         to put their piece in 
-        will enter the player's piece in the correct column given the 
+        will enter the player's piece in the correct row given the 
         player's piece and column chosen
      */
-    public static void enterPiece(String piece, int spot) {
-        //the column index is spot - 1
-        // the piece in which to put is a parameter
-
-        // make sure it is placed at the bottom
+    public static void dropPiece(String piece, int spot) {
+        
+        int row = spot - 1;
+        
+        for (int i = gridLength - 1; i >= 1; i--) {
+            int col = i;
+            String element = boardArray[row][col];
+            if (element.equals(" ")){
+                boardArray[row][col] = piece;
+                break;
+            }
+        }
 
 
         
     }
 
+    public static boolean checkSpot(int spot) {
+        boolean result = false;
+        if ((spot >= 1) && (spot <= 8)) {
+            // if the spot is within the range, place the piece in that spot  
+        }
+        else {
+            // if not in range, will return false
+            return result;
+        }
+
+        int row = spot - 1;
+        
+        for (int i = gridLength - 1; i >= 1; i--) {
+            int col = i;
+            String element = boardArray[row][col];
+            if (element.equals(" ")){
+                result = true;
+                return result;
+            }
+        }
+
+
+        return result;
+    }
+
     public static boolean checkConnectFour() {
-        //TODO: check that the array doesn't have a connect four
-        return false;
+        boolean result = false;
+        
+        for (int row = 0; row < gridLength - 1; row++) {
+            for (int col = 0; col < gridLength -1; col++) {
+                String element = boardArray[row][col]; //current element
+                
+                //checks horizontal connect 4
+                // if col still has 4 
+                if((col <= gridLength - 1 - 4) && element == boardArray[row][col + 1]
+                    && element == boardArray[row][col + 2] && element == boardArray[row][col + 3] ) {
+                    result = true;
+                    return result;
+                }
+
+
+
+
+
+                 
+            }
+            
+            
+        }
+
+        return result;
     }
 
     public static void rageQuitDisplay(int count) {
