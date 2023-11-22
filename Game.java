@@ -55,7 +55,7 @@ public class Game {
             }
             else if (userOption.equalsIgnoreCase("P")) {               
                 System.out.println("\n" + "Enter \"Q\" to quit"); 
-
+                displayBoard();  
                 boolean isGameOver = false;
 
                 // if count is even, its player1's turn
@@ -225,20 +225,31 @@ public class Game {
         for (int row = 0; row < gridLength - 1; row++) {
             for (int col = 0; col < gridLength -1; col++) {
                 String element = boardArray[row][col]; //current element
-                
-                //checks horizontal connect 4
-                // if col still has 4 
-                if((col <= gridLength - 1 - 4) && element == boardArray[row][col + 1]
-                    && element == boardArray[row][col + 2] && element == boardArray[row][col + 3] ) {
-                    result = true;
-                    return result;
+
+                if (element.equals("X") || (element.equals("O"))){
+                    //only check connect four if the current element is x or o
+                    if ((col <= gridLength - 4 ) 
+                        && element.equals(boardArray[row][col + 1])
+                        && element.equals(boardArray[row][col + 2])
+                        && element.equals(boardArray[row][col + 3])) {
+                            // checks if theres a vertical connect 4
+                            result = true;
+                            return result;
+                    }
+                    else if ((row <= gridLength - 4 ) 
+                        && element.equals(boardArray[row + 1][col])
+                        && element.equals(boardArray[row + 2][col]) 
+                        && element.equals(boardArray[row + 3][col]) ) {
+                            //checks if there is a horiz connect 4
+                            result = true;
+                            return result; //TODO: fix 
+                    }
+
+
+
+
                 }
 
-
-
-
-
-                 
             }
             
             
